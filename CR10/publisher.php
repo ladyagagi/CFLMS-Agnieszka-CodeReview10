@@ -20,6 +20,7 @@
     $resultPublisher = mysqli_query($conn, $sqlPublisher); 
 
     $sqlTitle = "SELECT title FROM media WHERE publisher ='$sqlPublisher'";
+    
     $resultTitle = mysqli_query($conn, $sqlTitle); 
      
    
@@ -35,22 +36,27 @@
         foreach ($rows as $key => $value) { ?>
         <span class="badge badge-light p-3 m-2"><a href="publisher.php?publisher=<?php echo $value["publisher"]; ?>"><?php echo $value["publisher"]; ?></a></span>
        
+        <?php }
+        if (isset($_GET["publisher"])) {?>
         
-        <?php } 
-       
-        foreach ($rows as $key => $value) { ?>
-        <p><?php echo "{$value["publisher"]} media items are:"; ?></p>
-        <?php } ?>
+        <p class="mt-5 border border-secondary rounded p-3"><?php echo "<b>{$_GET["publisher"]}</b> media items are:"; ?></p>
+        
+        <?php $rows = $resultTitle->fetch_all(MYSQLI_ASSOC); ?>
+        <p><?php echo $resultTitle['title']; ?></p>
+
+       <?php } ?>
+
+      
         </p>
 
-
+</div>
      
 
   <!-- < ?php $rows = $resultTitle->fetch_all(MYSQLI_ASSOC);
         foreach ($rows as $key => $value) { ?>
      < ?php echo $value["title"]; ?> 
         < ?php } ?>   -->
- </div>
+ 
 
 
  <!-- <table class="table mt-4">
