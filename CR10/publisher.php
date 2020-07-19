@@ -13,14 +13,10 @@
     <?php
     include ("actions/db_connect.php");
 
-    $sql = "SELECT * FROM media";
-    $result = mysqli_query($conn, $sql);
-   
     $sqlPublisher = "SELECT DISTINCT publisher FROM media";
     $resultPublisher = mysqli_query($conn, $sqlPublisher); 
 
-    $sqlTitle = "SELECT title FROM media WHERE publisher ='$sqlPublisher'";
-    
+    $sqlTitle = "SELECT title FROM media WHERE publisher ='{$_GET["publisher"]}'";
     $resultTitle = mysqli_query($conn, $sqlTitle); 
      
    
@@ -35,21 +31,26 @@
         <?php $rows = $resultPublisher->fetch_all(MYSQLI_ASSOC);
         foreach ($rows as $key => $value) { ?>
         <span class="badge badge-light p-3 m-2"><a href="publisher.php?publisher=<?php echo $value["publisher"]; ?>"><?php echo $value["publisher"]; ?></a></span>
-       
+     
         <?php }
         if (isset($_GET["publisher"])) {?>
-        
-        <p class="mt-5 border border-secondary rounded p-3"><?php echo "<b>{$_GET["publisher"]}</b> media items are:"; ?></p>
-        
-        <?php $rows = $resultTitle->fetch_all(MYSQLI_ASSOC); ?>
-        <p><?php echo $resultTitle['title']; ?></p>
+       
+            <div class="mt-5 border border-secondary rounded p-3"><?php echo "<b>{$_GET["publisher"]}</b> media items are: <br>"; ?>
+            
+            <?php $rows = $resultTitle->fetch_all(MYSQLI_ASSOC);
 
-       <?php } ?>
-
+            foreach ($rows as $key => $value) { ?>
+                
+                    <?php echo $value["title"]. "<br>"?>
+                
+            <?php } ?>
       
-        </p>
+       <?php } ?>
+            </div>
+   
+       
+ </div> 
 
-</div>
      
 
   <!-- < ?php $rows = $resultTitle->fetch_all(MYSQLI_ASSOC);
